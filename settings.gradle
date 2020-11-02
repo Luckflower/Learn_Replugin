@@ -1,3 +1,6 @@
+include ':commonlibrary'
+include ':huawei-ad-plugin'
+include ':huawei-ad-host'
 include ':host', ':library', ':plugindemo1', ':plugindemo2',':plugindemo3'
 
 include ':replugin-host-library', ':replugin-plugin-library'

@@ -21,6 +21,10 @@ buildscript {
 //            url "https://dl.bintray.com/froyo-github/Replugin-AndroidX"
 //        }
 
+        maven {
+            url 'http://dev.inner.yuewen.local/nexus/repository/maven-public/'
+        }
+
         google()
         jcenter()
     }
@@ -55,11 +59,16 @@ allprojects {
             maven {
                 url uri('./RePluigPluginLocalRepo')
             }
+            maven { url 'http://developer.huawei.com/repo/' }
         }
 
 //        maven{
 //            url "https://dl.bintray.com/froyo-github/Replugin-AndroidX"
 //        }
+
+        maven {
+            url 'http://dev.inner.yuewen.local/nexus/repository/maven-public/'
+        }
 
         google()
         jcenter()

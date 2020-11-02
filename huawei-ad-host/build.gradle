@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+
+def config = rootProject.ext.android
+def versions = rootProject.ext.versions
+def libraries = rootProject.ext.dependencies
+
+android {
+    // 编译SDK的版本
+    compileSdkVersion config.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.chanjalun.hwadhost"
+        versionCode 1
+        versionName "1.0"
+        //minSDk
+        minSdkVersion config.minSdkVersion
+        //targetSdk
+        targetSdkVersion config.targetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+apply plugin: 'replugin-host-gradle'
+repluginHostConfig {
+    useAppCompat = false
+
+    // 设置为“不需要常驻进程”,以主进程为插件管理进程
+    persistentEnable = false
+}
+
+dependencies {
+    api fileTree(dir: 'libs', includes: ['*.so', '*.jar'])
+    implementation libraries.repluginHostLib
+
+
+    implementation libraries.androidXConstraintlayout
+    implementation libraries.androidXSupportV4
+    implementation libraries.androidXSupportV7
+//
+    api files('libs/commonlibrary.aar')
+//    api project(':commonlibrary')
+}

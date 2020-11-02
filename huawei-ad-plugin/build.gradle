@@ -1,0 +1,60 @@
+if (isHwAdPlugin.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+
+def config = rootProject.ext.android
+def versions = rootProject.ext.versions
+def libraries = rootProject.ext.dependencies
+
+android {
+    // 编译SDK的版本
+    compileSdkVersion config.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.chanjalun.hwadplugin"
+        //minSDk
+        minSdkVersion config.minSdkVersion
+        //targetSdk
+        targetSdkVersion config.targetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+// 这个plugin需要放在android配置之后，因为需要读取android中的配置项
+apply plugin: 'replugin-plugin-gradle'
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+
+dependencies {
+
+    implementation libraries.repluginPluginLib
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+
+//    implementation 'com.huawei.hms:base:3.0.2.300'
+//    implementation 'com.huawei.hms:ppskit:3.0.2.300'
+
+    implementation 'com.yuewen.cooperate.adsdk:huawei-aar:13.4.32.305'
+
+    compileOnly files('libs/aar/commonlibrary.aar')
+}
