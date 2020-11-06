@@ -5,14 +5,15 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.chanjalun.commonlibrary.IAdManager;
+import com.chanjalun.commonlibrary.INativeAdCallback;
 import com.qihoo360.replugin.RePlugin;
 
 import java.lang.reflect.Method;
 
 public class HwAdManager implements IAdManager {
 
-//    public static final String TAG = "HwAdManager-log";
-    public static final String TAG = "hostApp-log";
+    public static final String TAG = "HwAdManager-log";
+//    public static final String TAG = "hostApp-log";
 
 
     private static IAdManager sInstance;
@@ -56,5 +57,10 @@ public class HwAdManager implements IAdManager {
     @Override
     public void requestSplashAd(Context context, Context context1, ViewGroup viewGroup) {
         sInstance.requestSplashAd(context, context1,viewGroup);
+    }
+
+    @Override
+    public void requestNativeAd(Context context, Context context1, INativeAdCallback iNativeAdCallback) {
+        sInstance.requestNativeAd(context, context1, iNativeAdCallback);
     }
 }

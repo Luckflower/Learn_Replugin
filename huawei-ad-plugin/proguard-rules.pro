@@ -22,3 +22,6 @@
 
 #华为广告
 -keep class com.huawei.openalliance.ad.**{ *; }
+
+# 华为hms
+-keep class com.huawei.hms.**{*;}

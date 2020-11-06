@@ -30,7 +30,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AdPluginDemo"
         android:name="com.chanjalun.hwadplugin.PluginApp">
-        <activity android:name="com.chanjalun.hwadplugin.SplashActivity">
+<!--        <activity android:name="com.chanjalun.hwadplugin.SplashActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+        <activity android:name="com.chanjalun.hwadplugin.NativeAdActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

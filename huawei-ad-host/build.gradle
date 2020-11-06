@@ -56,4 +56,6 @@ dependencies {
 //
     api files('libs/commonlibrary.aar')
 //    api project(':commonlibrary')
+
+//    implementation 'com.yuewen.cooperate.adsdk:huawei-aar:13.4.32.305'
 }
