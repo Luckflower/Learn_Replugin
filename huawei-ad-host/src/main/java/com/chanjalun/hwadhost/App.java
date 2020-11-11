@@ -30,6 +30,7 @@ public class App extends Application {
         super.attachBaseContext(base);
         RePluginConfig rePluginConfig = new RePluginConfig();
         rePluginConfig.setUseHostClassIfNotFound(true);
+        rePluginConfig.setPrintDetailLog(true);
         RePlugin.App.attachBaseContext(this, rePluginConfig);
         Log.d(TAG, "host application attachBaseContext call");
     }

@@ -17,6 +17,7 @@
 package com.qihoo360.replugin;
 
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.qihoo360.loader.utils.StringUtils;
@@ -160,9 +161,20 @@ public class RePluginClassLoader extends PathClassLoader {
             }
             return c;
         } catch (Throwable e) {
-            //
+            LogDebug.d(TAG, "loadClass: load other class, e=" + e.toString());
+            PluginDexClassLoader pluginClassLoader = (PluginDexClassLoader) RePlugin.fetchClassLoader("com.chanjalun.hwadplugin");
+            if (pluginClassLoader != null) {
+                LogDebug.d(TAG, "loadClass: pluginClassLoader != null pluginClassLoader = "+pluginClassLoader.toString());
+                try {
+                    return pluginClassLoader.loadClass(className, true, true);
+                } catch (Exception e1) {
+                    LogDebug.d(TAG, "loadClass: super loadClass, e1=" + e1.toString());
+                    return super.loadClass(className, resolve);
+                }
+            }
         }
         //
+        LogDebug.d(TAG, "loadClass: super loadClass, className=" + className);
         return super.loadClass(className, resolve);
     }
 

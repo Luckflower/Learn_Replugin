@@ -39,6 +39,18 @@
 
         <activity android:name=".activity.NativeAdActivity">
         </activity>
+
+
+<!--        <activity-->
+<!--            android:name="com.huawei.openalliance.ad.activity.PPSActivity"-->
+<!--            android:configChanges="uiMode|screenLayout|screenSize|smallestScreenSize|orientation|keyboardHidden"-->
+<!--            android:exported="false"-->
+<!--            android:screenOrientation="portrait" >-->
+<!--            <meta-data-->
+<!--                android:name="hwc-theme"-->
+<!--                android:value="androidhwext:style/Theme.Emui" />-->
+<!--        </activity>-->
+
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.chanjalun.hwadhost.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -25,6 +26,11 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * 闪屏广告
+ * 流程： 广告请求和广告sdk都封装在plugin中，点击按钮发起广告请求， 请求广告时将宿主的view container作为参数传递，
+ * 广告请求成功后将广告view添加到该view container即可
+ */
 public class SplashAdActivity extends AppCompatActivity {
 
     public static final String TAG = "AdManager-log";
@@ -35,6 +41,11 @@ public class SplashAdActivity extends AppCompatActivity {
 
 
     private boolean isLoadResource = false;
+
+    /**
+     * 当前运行在
+     */
+    private boolean isPluginRunning = false;
 
 
     @Override
@@ -54,7 +65,7 @@ public class SplashAdActivity extends AppCompatActivity {
                     return;
                 }
                 //方案1：直接将插件的res注入到宿主
-//            boolean isSuccess = PluginManager.injectResource(this, getApkPath());
+            boolean isSuccess = PluginManager.injectResource(SplashAdActivity.this, getApkPath());
 //            Log.i(TAG, "inject resource is success "+isSuccess);
 
                 //方案1：加载插件res，并且重写宿主activity的getResource
@@ -62,13 +73,14 @@ public class SplashAdActivity extends AppCompatActivity {
 //            Log.i(TAG, "inject resource is success "+isSuccess);
 
                 //方案3：将插件的res和宿主的res直接合并，这样有资源冲突问题，后续再解决
-                PluginManager.mergePluginResources(App.getInstance(), getApkPath());
+//                PluginManager.mergePluginResources(App.getInstance(), getApkPath());
 
 
 //                PluginManager.preloadResource(SplashAdActivity.this, getApkPath());
                 printResLog();
 
-//                HwAdManager.getInstance().requestSplashAd(RePlugin.fetchContext(Constants.PLUGIN_NAME), SplashAdActivity.this, adContainer);
+                isPluginRunning = true;
+                HwAdManager.getInstance().requestSplashAd(RePlugin.fetchContext(Constants.PLUGIN_NAME), SplashAdActivity.this, adContainer);
 
 //                RePlugin.startActivity(MainActivity.this, RePlugin.createIntent(Constants.PLUGIN_NAME, "com.chanjalun.hwadplugin.SplashActivity"));
 //                RePlugin.startActivity(MainActivity.this, new Intent())
@@ -84,8 +96,9 @@ public class SplashAdActivity extends AppCompatActivity {
 
     private void printResLog(){
         int resID =getResources().getIdentifier("hiad_24_dp", "dimen", this.getPackageName());
-//        float hiad24 = getResources().getDimension(resID);
         Log.i(TAG, "inject resource resID "+resID);
+        float hiad24 = getResources().getDimension(resID);
+        Log.i(TAG, "inject resource hiad24 "+hiad24);
 
 //        float hiad24 = getResources().getDimension(R.dimen.hiad_24_dp);
 //        Log.i(TAG, "inject resource hiad24 "+hiad24);
@@ -156,4 +169,12 @@ public class SplashAdActivity extends AppCompatActivity {
 //    }
 
 
+//    @Override
+//    public ClassLoader getClassLoader() {
+//        if (isPluginRunning) {
+//            Context pluginContext = RePlugin.fetchContext(Constants.PLUGIN_NAME);
+//            return pluginContext.getClassLoader();
+//        }
+//        return super.getClassLoader();
+//    }
 }
