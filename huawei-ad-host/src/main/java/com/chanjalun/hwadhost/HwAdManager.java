@@ -29,24 +29,33 @@ public class HwAdManager implements IAdManager {
         }
         synchronized (HwAdManager.class) {
             if (sInstance == null) {
-                boolean isSuccess = PluginManager.simulateInstallExternalPlugin(App.getInstance(), Constants.PLUGIN_PATH);
-                Log.i(TAG, "plugin install success "+isSuccess);
-                if (isSuccess) {
-                    RePlugin.fetchContext(Constants.PLUGIN_NAME);
-
-                    ClassLoader pluginClassLoader = RePlugin.fetchClassLoader(Constants.PLUGIN_NAME);
-                    try {
-                        Class<?> adManagerClass = pluginClassLoader.loadClass("com.chanjalun.hwadplugin.AdManager");
-                        Method getInstance = adManagerClass.getDeclaredMethod("getInstance", new Class[0]);
-                        sInstance = (IAdManager) getInstance.invoke(null,  new Object[]{});
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e(TAG, "getInstance error is "+e.toString());
+                if (!PluginManager.isInstall(Constants.PLUGIN_PATH)) {
+                    Log.e(TAG, "plugin not install");
+                    boolean isSuccess = PluginManager.simulateInstallExternalPlugin(App.getInstance(), Constants.PLUGIN_PATH);
+                    Log.i(TAG, "plugin install success "+isSuccess);
+                    if (isSuccess) {
+                        initAdManager();
                     }
+                } else {
+                    Log.e(TAG, "plugin installed");
+                    initAdManager();
                 }
             }
         }
         return sInstance;
+    }
+
+    private static void initAdManager() {
+        RePlugin.fetchContext(Constants.PLUGIN_NAME);
+        ClassLoader pluginClassLoader = RePlugin.fetchClassLoader(Constants.PLUGIN_NAME);
+        try {
+            Class<?> adManagerClass = pluginClassLoader.loadClass("com.chanjalun.hwadplugin.AdManager");
+            Method getInstance = adManagerClass.getDeclaredMethod("getInstance", new Class[0]);
+            sInstance = (IAdManager) getInstance.invoke(null,  new Object[]{});
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "getInstance error is "+e.toString());
+        }
     }
 
     @Override

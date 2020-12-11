@@ -30,6 +30,15 @@ public class PluginManager {
     public static final String TAG = "AdManager-log";
 
     /**
+     * 判断一个插件是否已经安装
+     * @param pluginName
+     * @return
+     */
+    public static boolean isInstall(String pluginName) {
+        return RePlugin.isPluginInstalled(pluginName);
+    }
+
+    /**
      * 模拟安装或升级（覆盖安装）外置插件
      * 注意：为方便演示，外置插件临时放置到Host的assets/external目录下，具体说明见README</p>
      */
